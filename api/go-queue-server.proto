@@ -1,0 +1,28 @@
+syntax = "proto3";
+package api;
+
+option go_package = "github.com/lorenzo-milicia/go-server-queue/api";
+
+message Records {
+    repeated Record records = 1;
+}
+
+message Record {
+    string id = 1;
+    repeated Field fields = 2;
+}
+
+message Field {
+    string name = 1;
+    string value = 2;
+}
+
+message Request {}
+
+message StreamSize {
+    int64 size = 1;
+}
+
+service DataFetcher {
+    rpc FetchQueueStream(StreamSize) returns (stream Records);
+}
