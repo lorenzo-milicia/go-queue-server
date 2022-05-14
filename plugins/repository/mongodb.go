@@ -1,15 +1,45 @@
-package repository
+package main
 
 import (
 	"context"
 	"log"
+	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/lorenzo-milicia/go-server-queue/domain"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
+// Plugin adapter
+
+var RecordRepository domain.IRecordRepository = newRepository()
+
+func newRepository() *MongoRecordRepository {
+	godotenv.Load(".env")
+	// connect to hosted MongoDB
+
+	log.SetFlags(log.LstdFlags | log.Lmicroseconds)
+
+	serverAPIOptions := options.ServerAPI(options.ServerAPIVersion1)
+	clientOptions := options.Client().
+		ApplyURI(os.Getenv("DB_URI")).
+		SetServerAPIOptions(serverAPIOptions)
+	ctx, cancel := context.WithCancel(context.TODO())
+	defer cancel()
+	client, err := mongo.Connect(ctx, clientOptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return &MongoRecordRepository{
+		DB: client,
+	}
+}
+
+//
 
 type RecordEntity struct {
 	ID     primitive.ObjectID     `bson:"_id"`
