@@ -39,3 +39,5 @@ func (r *MockRepository) FindAllPaginated(pagesize int, pagenumber int) []Record
 	r.findAllPaginatedCount++
 	return mockRecords
 }
+
+func (r *MockRepository) AsynchFetchRecords(ch chan Records, batchsize int)

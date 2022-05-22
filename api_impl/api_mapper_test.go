@@ -8,7 +8,7 @@ import (
 
 func BenchmarkToDto(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		r := make([]domain.Record, n)
+		r := domain.Record{}
 		toDto(r)
 	}
 }

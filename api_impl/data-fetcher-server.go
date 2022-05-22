@@ -17,23 +17,53 @@ func NewDataFetcherServer(s domain.IBatchService) *DataFetcherServerImpl {
 }
 
 func (s DataFetcherServerImpl) FetchQueueStream(dto *api.StreamSize, stream api.DataFetcher_FetchQueueStreamServer) error {
-	pagenumber := 0
-	for {
-		records := s.service.GetBatch(int(dto.Size), pagenumber)
+	log.Println("Start stream")
 
-		if len(records) == 0 {
-			break
+	ch := make(chan domain.Records, 2)
+
+	go s.service.GetBatchChannel(ch, int(dto.Size))
+
+	for batch := range ch {
+		var mappedRecords []*api.Record = make([]*api.Record, 0)
+
+		for _, record := range batch {
+			mappedRecords = append(mappedRecords, toDto(record))
 		}
 
-		mappedRecords := api.Records{Records: toDto(records)}
-		err := stream.Send(&mappedRecords)
+		err := stream.Send(&api.Records{Records: mappedRecords})
 		if err != nil {
 			log.Fatalf("Error during stream send %v\n", err)
 			return err
 		} else {
 			log.Print("Stream sent")
 		}
-		pagenumber++
 	}
 	return nil
 }
+
+// func (s DataFetcherServerImpl) FetchQueueStream(dto *api.StreamSize, stream api.DataFetcher_FetchQueueStreamServer) error {
+// 	pagenumber := 0
+// 	log.Println("Start stream")
+// 	for {
+// 		records := s.service.GetBatch(int(dto.Size), pagenumber)
+
+// 		if len(records) == 0 {
+// 			break
+// 		}
+// 		var mappedRecords []*api.Record = make([]*api.Record, len(records))
+
+// 		// for idx, record := range records {
+// 		// 	mappedRecords[idx] = toDto(record)
+// 		// }
+
+// 		err := stream.Send(&api.Records{Records: mappedRecords})
+// 		if err != nil {
+// 			log.Fatalf("Error during stream send %v\n", err)
+// 			return err
+// 		} else {
+// 			log.Print("Stream sent")
+// 		}
+// 		pagenumber++
+// 	}
+// 	return nil
+// }

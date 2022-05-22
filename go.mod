@@ -3,6 +3,8 @@ module github.com/lorenzo-milicia/go-server-queue
 go 1.18
 
 require (
+	github.com/joho/godotenv v1.4.0
+	github.com/lorenzo-milicia/go-libs v0.0.0-20220519175941-1edb7d56d8e1
 	google.golang.org/grpc v1.46.2
 	google.golang.org/protobuf v1.28.0
 )
@@ -10,9 +12,7 @@ require (
 require (
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
-	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
-	github.com/lorenzo-milicia/go-libs v0.0.0-20220519175941-1edb7d56d8e1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.0.2 // indirect

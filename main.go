@@ -1,53 +1,24 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log"
 	"net"
-	"path"
-	"plugin"
 
 	"github.com/lorenzo-milicia/go-server-queue/api"
 	"github.com/lorenzo-milicia/go-server-queue/api_impl"
 	"github.com/lorenzo-milicia/go-server-queue/domain"
+	repository "github.com/lorenzo-milicia/go-server-queue/repository/mongo"
 	"google.golang.org/grpc"
 )
 
 func main() {
 
-	// Define flags
-	var repoModFile string
-	flag.StringVar(&repoModFile, "repository", "", "The path to the repository plugin .so file")
+	log.SetFlags(log.LstdFlags | log.Lmicroseconds)
 
-	// Read flags
-	flag.Parse()
+	r := repository.NewMongoRepository()
 
-	if repoModFile == "" {
-		panic("No repository plugin specified\n")
-	}
-
-	//
-
-	fmt.Printf("Opening plugin...\n")
-
-	mod, err := plugin.Open(repoModFile)
-
-	if err != nil {
-		panic(fmt.Sprintf("Error while opening plugin file: %v\n", err))
-	}
-
-	sym, err := mod.Lookup("RecordRepository")
-
-	if err != nil {
-		panic(fmt.Sprintf("Error while looking up the variable: %v\n", err))
-	}
-
-	r := sym.(*domain.IRecordRepository)
-
-	fmt.Printf("Repository plugin %v correctly loaded\n", path.Base(repoModFile))
-
-	s := domain.BatchService{Repository: *r}
+	s := domain.BatchService{Repository: r}
 
 	fmt.Println("Server started")
 
