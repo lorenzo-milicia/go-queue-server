@@ -18,7 +18,7 @@ type MongoRecordRepository struct {
 }
 
 func NewMongoRepository() *MongoRecordRepository {
-	godotenv.Load(".env")
+	_ = godotenv.Load(".env")
 	// connect to hosted MongoDB
 
 	serverAPIOptions := options.ServerAPI(options.ServerAPIVersion1)
@@ -106,7 +106,7 @@ func (r *MongoRecordRepository) AsynchFetchRecords(ch chan domain.Records, batch
 
 		var entity RecordEntity
 
-		cursor.Decode(&entity)
+		_ = cursor.Decode(&entity)
 
 		batch = append(batch, entity.toDomain())
 
@@ -119,4 +119,8 @@ func (r *MongoRecordRepository) AsynchFetchRecords(ch chan domain.Records, batch
 	ch <- batch
 
 	close(ch)
+}
+
+func (r *MongoRecordRepository) SaveRecords(records domain.Records) error {
+	panic("TODO")
 }

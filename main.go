@@ -18,7 +18,8 @@ func main() {
 
 	r := repository.NewPSQLRecordRepository() 
 
-	s := domain.BatchService{Repository: r}
+	batchService := domain.BatchService{Repository: r}
+	consumeQueueService := domain.ConsumeQueueService{Repository: r}
 
 	fmt.Println("Server started")
 
@@ -28,6 +29,7 @@ func main() {
 	}
 	var opts []grpc.ServerOption
 	grpcServer := grpc.NewServer(opts...)
-	api.RegisterDataFetcherServer(grpcServer, api_impl.NewDataFetcherServer(&s))
+	api.RegisterDataFetcherServer(grpcServer, api_impl.NewDataFetcherServer(&batchService))
+	api.RegisterQueueConsumerServer(grpcServer, api_impl.NewQueueConsumerServerImpl(&consumeQueueService))
 	_ = grpcServer.Serve(lis)
 }

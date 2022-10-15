@@ -29,6 +29,8 @@ func NewPSQLRecordRepository() *PSQLRecordRepository {
 	return &PSQLRecordRepository{DB: dbpool}
 }
 
+// IRecordRepository implementation
+
 func (r *PSQLRecordRepository) FindAllPaginated(pagesize int, pagenumber int) []domain.Record {
 	panic("TODO")
 }
@@ -36,3 +38,8 @@ func (r *PSQLRecordRepository) FindAllPaginated(pagesize int, pagenumber int) []
 func (r *PSQLRecordRepository) AsynchFetchRecords(ch chan domain.Records, batchsize int)  {
 	panic("TODO")
 }
+
+func (r *PSQLRecordRepository) SaveRecords(records domain.Records) error {
+	panic("TODO")
+}
+
