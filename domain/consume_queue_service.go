@@ -9,5 +9,11 @@ type ConsumeQueueService struct {
 }
 
 func (s ConsumeQueueService) SaveBatches(ch chan Records) error {
-	panic("TODO")
+	for batch := range ch {
+		err := s.Repository.SaveRecords(batch)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

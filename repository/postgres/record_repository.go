@@ -25,8 +25,24 @@ func NewPSQLRecordRepository() *PSQLRecordRepository {
 	if err != nil {
 		log.Fatal("Failed ping", err)
 	}
+	log.Println("Ping successful")
+
+	initDb(dbpool)
+	log.Println("DB initialized correctly")
 
 	return &PSQLRecordRepository{DB: dbpool}
+}
+
+func initDb(db *pgxpool.Pool) {
+	file, err := os.ReadFile("./resources/sql/initDb.sql")
+	if err != nil {
+		log.Fatal("Unable to open initDb.sql")
+	}
+
+	_, err = db.Exec(context.TODO(), string(file))
+	if err != nil {
+		log.Fatal("Failed to initialize DB")
+	}
 }
 
 // IRecordRepository implementation
@@ -42,4 +58,3 @@ func (r *PSQLRecordRepository) AsynchFetchRecords(ch chan domain.Records, batchs
 func (r *PSQLRecordRepository) SaveRecords(records domain.Records) error {
 	panic("TODO")
 }
-
