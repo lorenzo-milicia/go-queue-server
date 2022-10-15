@@ -12,15 +12,7 @@ message Records {
 message Record {
     string id = 1;
     repeated Field fields = 2;
-}
-
-message RecordsText {
-    repeated RecordText records = 1;
-}
-
-message RecordText {
-    string id = 1;
-    string payload = 2;
+    string payload = 3;
 }
 
 message Field {
@@ -39,5 +31,5 @@ service DataFetcher {
 }
 
 service QueueConsumer {
-    rpc ConsumeQueue(stream RecordsText) returns (google.protobuf.Empty);
+    rpc ConsumeQueue(stream Records) returns (google.protobuf.Empty);
 }

@@ -6,4 +6,4 @@ type Record struct {
 	Payload string
 }
 
-type Records []Record
+type Records []*Record

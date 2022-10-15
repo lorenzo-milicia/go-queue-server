@@ -157,7 +157,7 @@ func (c *queueConsumerClient) ConsumeQueue(ctx context.Context, opts ...grpc.Cal
 }
 
 type QueueConsumer_ConsumeQueueClient interface {
-	Send(*RecordsText) error
+	Send(*Records) error
 	CloseAndRecv() (*emptypb.Empty, error)
 	grpc.ClientStream
 }
@@ -166,7 +166,7 @@ type queueConsumerConsumeQueueClient struct {
 	grpc.ClientStream
 }
 
-func (x *queueConsumerConsumeQueueClient) Send(m *RecordsText) error {
+func (x *queueConsumerConsumeQueueClient) Send(m *Records) error {
 	return x.ClientStream.SendMsg(m)
 }
 
@@ -215,7 +215,7 @@ func _QueueConsumer_ConsumeQueue_Handler(srv interface{}, stream grpc.ServerStre
 
 type QueueConsumer_ConsumeQueueServer interface {
 	SendAndClose(*emptypb.Empty) error
-	Recv() (*RecordsText, error)
+	Recv() (*Records, error)
 	grpc.ServerStream
 }
 
@@ -227,8 +227,8 @@ func (x *queueConsumerConsumeQueueServer) SendAndClose(m *emptypb.Empty) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *queueConsumerConsumeQueueServer) Recv() (*RecordsText, error) {
-	m := new(RecordsText)
+func (x *queueConsumerConsumeQueueServer) Recv() (*Records, error) {
+	m := new(Records)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}

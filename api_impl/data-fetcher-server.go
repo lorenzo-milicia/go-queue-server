@@ -26,7 +26,7 @@ func (s DataFetcherServerImpl) FetchQueueStream(dto *api.StreamSize, stream api.
 		var mappedRecords = make([]*api.Record, 0)
 
 		for _, record := range batch {
-			mappedRecords = append(mappedRecords, toDto(record))
+			mappedRecords = append(mappedRecords, toDto(*record))
 		}
 
 		err := stream.Send(&api.Records{Records: mappedRecords})

@@ -2,7 +2,9 @@ package repository
 
 import (
 	"context"
+	"github.com/google/uuid"
 	_ "github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/lorenzo-milicia/go-server-queue/domain"
 	"log"
@@ -19,7 +21,6 @@ func NewPSQLRecordRepository() *PSQLRecordRepository {
 	if err != nil {
 		log.Fatal("Error while getting connection pool")
 	}
-	defer dbpool.Close()
 
 	err = dbpool.Ping(context.TODO())
 	if err != nil {
@@ -51,10 +52,28 @@ func (r *PSQLRecordRepository) FindAllPaginated(pagesize int, pagenumber int) []
 	panic("TODO")
 }
 
-func (r *PSQLRecordRepository) AsynchFetchRecords(ch chan domain.Records, batchsize int)  {
+func (r *PSQLRecordRepository) AsynchFetchRecords(ch chan domain.Records, batchsize int) {
 	panic("TODO")
 }
 
 func (r *PSQLRecordRepository) SaveRecords(records domain.Records) error {
-	panic("TODO")
+	batch := &pgx.Batch{}
+	for _, record := range records {
+		id, err := uuid.NewUUID()
+		if err != nil {
+			return err
+		}
+		batch.Queue(
+			"insert into data(id, payload) values($1, $2)",
+			id.String(),
+			record.Payload,
+		)
+	}
+	br := r.DB.SendBatch(context.Background(), batch)
+	err := br.Close()
+	if err != nil {
+		log.Print("Something went wrong with batch insert", err)
+		return err
+	}
+	return nil
 }
