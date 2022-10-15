@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
+	repository "github.com/lorenzo-milicia/go-server-queue/repository/postgres"
 	"log"
 	"net"
 
 	"github.com/lorenzo-milicia/go-server-queue/api"
 	"github.com/lorenzo-milicia/go-server-queue/api_impl"
 	"github.com/lorenzo-milicia/go-server-queue/domain"
-	repository "github.com/lorenzo-milicia/go-server-queue/repository/mongo"
 	"google.golang.org/grpc"
 )
 
@@ -16,7 +16,7 @@ func main() {
 
 	log.SetFlags(log.LstdFlags | log.Lmicroseconds)
 
-	r := repository.NewMongoRepository()
+	r := repository.NewPSQLRecordRepository() 
 
 	s := domain.BatchService{Repository: r}
 
