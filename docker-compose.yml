@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  application:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/src
+    environment:
+      DB_URL: postgres://localhost:5432/queueserver
+      DB_USERNAME: queueserver
+      DB_PASSWORD: queueserver
+    command: 'go run .'
+  db:
+    image: "postgres"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: queueserver
+      POSTGRES_USER: queueserver
+      POSTGRES_PASSWORD: queueserver
