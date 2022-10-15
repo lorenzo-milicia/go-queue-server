@@ -29,5 +29,5 @@ func main() {
 	var opts []grpc.ServerOption
 	grpcServer := grpc.NewServer(opts...)
 	api.RegisterDataFetcherServer(grpcServer, api_impl.NewDataFetcherServer(&s))
-	grpcServer.Serve(lis)
+	_ = grpcServer.Serve(lis)
 }
