@@ -1,6 +1,8 @@
 syntax = "proto3";
 package api;
 
+import "google/protobuf/empty.proto";
+
 option go_package = "github.com/lorenzo-milicia/go-server-queue/api";
 
 message Records {
@@ -10,6 +12,15 @@ message Records {
 message Record {
     string id = 1;
     repeated Field fields = 2;
+}
+
+message RecordsText {
+    repeated RecordText records = 1;
+}
+
+message RecordText {
+    string id = 1;
+    string payload = 2;
 }
 
 message Field {
@@ -25,4 +36,8 @@ message StreamSize {
 
 service DataFetcher {
     rpc FetchQueueStream(StreamSize) returns (stream Records);
+}
+
+service QueueConsumer {
+    rpc ConsumeQueue(stream RecordsText) returns (google.protobuf.Empty);
 }
