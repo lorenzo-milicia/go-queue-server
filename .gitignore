@@ -17,3 +17,6 @@
 
 # Visual Studio Code
 .vscode/
+
+# Jetbrains Fleet
+.fleet
