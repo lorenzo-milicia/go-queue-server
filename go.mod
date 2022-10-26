@@ -3,6 +3,7 @@ module github.com/lorenzo-milicia/go-server-queue
 go 1.18
 
 require (
+	github.com/google/uuid v1.3.0
 	github.com/jackc/pgx/v4 v4.17.2
 	github.com/jackc/pgx/v5 v5.0.3
 	github.com/joho/godotenv v1.4.0

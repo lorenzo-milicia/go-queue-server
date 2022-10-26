@@ -19,5 +19,8 @@ func toDto(r domain.Record) *api.Record {
 	}
 
 	return &api.Record{Id: r.ID, Fields: fields}
+}
 
+func toDomain(r *api.Record) *domain.Record {
+	return &domain.Record{ID: r.Id, Payload: r.Payload}
 }

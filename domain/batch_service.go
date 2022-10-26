@@ -5,11 +5,14 @@ type IBatchService interface {
 	GetBatchChannel(ch chan Records, pagesize int)
 }
 
-type IRecordRepository interface {
-	FindAllPaginated(pagesize int, pagenumber int) []Record
-	AsynchFetchRecords(ch chan Records, batchsize int)
-}
-
 type BatchService struct {
 	Repository IRecordRepository
+}
+
+func (s BatchService) GetBatch(pagesize int, pagenumber int) []Record {
+	return s.Repository.FindAllPaginated(pagesize, pagenumber)
+}
+
+func (s BatchService) GetBatchChannel(ch chan Records, pagesize int) {
+	s.Repository.AsynchFetchRecords(ch, pagesize)
 }

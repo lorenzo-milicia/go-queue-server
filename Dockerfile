@@ -2,7 +2,6 @@ FROM golang:1.18-alpine
 
 WORKDIR /src
 
-COPY go.mod ./
-COPY go.sum ./
+COPY . ./
 
-RUN go mod download
+RUN go build -o /queue-server

@@ -6,7 +6,7 @@ import (
 
 // Plugin adapter
 
-var RecordRepository domain.IRecordRepository = newRepository()
+var _ domain.IRecordRepository = newRepository()
 
 //
 
@@ -25,4 +25,9 @@ func (r *MockRecordRepository) FindAllPaginated(pagesize int, pagenumber int) []
 }
 
 func (r *MockRecordRepository) AsynchFetchRecords(ch chan domain.Records, batchsize int) {
+	panic("TODO")
+}
+
+func (r *MockRecordRepository) SaveRecords(records domain.Records) error {
+	panic("TODO")
 }
