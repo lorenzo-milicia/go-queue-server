@@ -21,7 +21,6 @@ func NewPSQLRecordRepository() *PSQLRecordRepository {
 	if err != nil {
 		log.Fatal("Error while getting connection pool")
 	}
-	defer dbpool.Close()
 
 	err = dbpool.Ping(context.TODO())
 	if err != nil {
