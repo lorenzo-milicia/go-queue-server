@@ -4,8 +4,6 @@ services:
     image: lorenzomilicia/go-queue-server:main
     ports:
       - "8080:8080"
-    volumes:
-      - .:/src
     environment:
       DB_URL: postgres://db:5432/queueserver
       DB_USERNAME: queueserver
