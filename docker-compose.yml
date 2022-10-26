@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   application:
-    build: .
+    image: lorenzomilicia/go-queue-server:main
     ports:
       - "8080:8080"
     volumes:
@@ -14,7 +14,7 @@ services:
   db:
     image: "postgres"
     ports:
-      - "5432:5432"
+      - "50001:5432"
     environment:
       POSTGRES_DB: queueserver
       POSTGRES_USER: queueserver
