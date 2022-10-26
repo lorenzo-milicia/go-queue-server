@@ -15,9 +15,9 @@ import (
 
 func main() {
 
-	_ = os.Setenv("DB_URL", "postgres://192.168.1.17:50001/queueserver")
-	_ = os.Setenv("DB_USERNAME", "queueserver")
-	_ = os.Setenv("DB_PASSWORD", "queueserver")
+//	_ = os.Setenv("DB_URL", "postgres://192.168.1.17:50001/queueserver")
+//	_ = os.Setenv("DB_USERNAME", "queueserver")
+//	_ = os.Setenv("DB_PASSWORD", "queueserver")
 
 	log.SetFlags(log.LstdFlags | log.Lmicroseconds)
 
