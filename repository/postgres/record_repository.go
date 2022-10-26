@@ -21,28 +21,20 @@ func NewPSQLRecordRepository() *PSQLRecordRepository {
 	if err != nil {
 		log.Fatal("Error while getting connection pool")
 	}
-<<<<<<< HEAD
 	defer dbpool.Close()
-=======
->>>>>>> consume-queue
 
 	err = dbpool.Ping(context.TODO())
 	if err != nil {
 		log.Fatal("Failed ping", err)
 	}
-<<<<<<< HEAD
-=======
 	log.Println("Ping successful")
 
 	initDb(dbpool)
 	log.Println("DB initialized correctly")
->>>>>>> consume-queue
 
 	return &PSQLRecordRepository{DB: dbpool}
 }
 
-<<<<<<< HEAD
-=======
 func initDb(db *pgxpool.Pool) {
 	file, err := os.ReadFile("./resources/sql/initDb.sql")
 	if err != nil {
@@ -57,16 +49,10 @@ func initDb(db *pgxpool.Pool) {
 
 // IRecordRepository implementation
 
->>>>>>> consume-queue
 func (r *PSQLRecordRepository) FindAllPaginated(pagesize int, pagenumber int) []domain.Record {
 	panic("TODO")
 }
 
-<<<<<<< HEAD
-func (r *PSQLRecordRepository) AsynchFetchRecords(ch chan domain.Records, batchsize int)  {
-	panic("TODO")
-}
-=======
 func (r *PSQLRecordRepository) AsynchFetchRecords(ch chan domain.Records, batchsize int) {
 	panic("TODO")
 }
@@ -92,4 +78,3 @@ func (r *PSQLRecordRepository) SaveRecords(records domain.Records) error {
 	}
 	return nil
 }
->>>>>>> consume-queue

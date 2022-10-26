@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "consume-queue" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "consume-queue" ]
+    branches: [ "main" ]
 
 jobs:
 

@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-<<<<<<< HEAD
 	repository "github.com/lorenzo-milicia/go-server-queue/repository/postgres"
 	"log"
 	"net"
@@ -10,15 +9,7 @@ import (
 	"github.com/lorenzo-milicia/go-server-queue/api"
 	"github.com/lorenzo-milicia/go-server-queue/api_impl"
 	"github.com/lorenzo-milicia/go-server-queue/domain"
-=======
-	"github.com/lorenzo-milicia/go-server-queue/api"
-	"github.com/lorenzo-milicia/go-server-queue/api_impl"
-	"github.com/lorenzo-milicia/go-server-queue/domain"
-	repository "github.com/lorenzo-milicia/go-server-queue/repository/postgres"
->>>>>>> consume-queue
 	"google.golang.org/grpc"
-	"log"
-	"net"
 )
 
 func main() {
