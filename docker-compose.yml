@@ -13,6 +13,8 @@ services:
     command: 'go run .'
   db:
     image: "postgres"
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_DB: queueserver
       POSTGRES_USER: queueserver

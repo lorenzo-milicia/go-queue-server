@@ -2,17 +2,20 @@ package main
 
 import (
 	"fmt"
-	repository "github.com/lorenzo-milicia/go-server-queue/repository/postgres"
-	"log"
-	"net"
-
 	"github.com/lorenzo-milicia/go-server-queue/api"
 	"github.com/lorenzo-milicia/go-server-queue/api_impl"
 	"github.com/lorenzo-milicia/go-server-queue/domain"
+	repository "github.com/lorenzo-milicia/go-server-queue/repository/postgres"
 	"google.golang.org/grpc"
+	"log"
+	"net"
 )
 
 func main() {
+
+//	_ = os.Setenv("DB_URL", "postgres://localhost:5432/queueserver")
+//	_ = os.Setenv("DB_USERNAME", "queueserver")
+//	_ = os.Setenv("DB_PASSWORD", "queueserver")
 
 	log.SetFlags(log.LstdFlags | log.Lmicroseconds)
 

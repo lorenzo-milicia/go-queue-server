@@ -23,12 +23,23 @@ func (s QueueConsumerServerImpl) ConsumeQueue(stream api.QueueConsumer_ConsumeQu
 		recv, err := stream.Recv()
 		if err == io.EOF {
 			log.Print("EOF")
-			return stream.SendAndClose(&emptypb.Empty{})
+			err := stream.SendAndClose(&emptypb.Empty{})
+			if err != nil {
+				return err
+			}
+			return nil
 		}
-		var mappedRecords = make([]*domain.Record, 0)
 
-		for _, record := range recv.Records {
-			mappedRecords = append(mappedRecords, toDomain(record))
+		if err != nil {
+			log.Print("ERROR RECEIVING: ", err)
+			return err
+		}
+		numberOfRecords := len(recv.Records)
+		var mappedRecords = make([]*domain.Record, numberOfRecords)
+
+
+		for i, record := range recv.Records {
+			mappedRecords[i] = toDomain(record)
 		}
 		err = s.service.SaveBatches(mappedRecords)
 		if err != nil {
